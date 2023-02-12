@@ -1,18 +1,19 @@
 package com.salandur.triforkassignment.domain;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Data
-@Builder
+@Entity
 public class Author {
-    @EqualsAndHashCode.Include
+    @Id
+    @GeneratedValue
     private Long id;
 
-    @EqualsAndHashCode.Exclude
     private String name;
 
-    @EqualsAndHashCode.Exclude
     private String pseudonym;
 }
