@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 public class BooksService {
     @Autowired
@@ -14,5 +16,10 @@ public class BooksService {
     @Transactional(readOnly = true)
     public Iterable<Book> getAllBooks() {
         return booksRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Book> getBookById(Long id) {
+        return booksRepository.findById(id);
     }
 }
