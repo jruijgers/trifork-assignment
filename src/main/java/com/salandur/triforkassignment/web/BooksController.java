@@ -7,8 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Optional;
-
 @RestController
 public class BooksController {
     private final BooksService booksService;
@@ -29,14 +27,15 @@ public class BooksController {
     }
 
     @GetMapping("/books/{id}")
-    public Optional<Book> getBookById(@PathVariable Long id) {
-        return booksService.getBookById(id);
+    public Book getBookById(@PathVariable Long id) {
+        return booksService.getBookById(id).
+                orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found"));
     }
 
     @PutMapping("/books/{id}")
     public Book updateBook(@RequestBody Book updateBook, @PathVariable Long id) {
         return booksService.getBookById(id).map(book -> {
-            book.setName(updateBook.getName());
+            book.setTitle(updateBook.getTitle());
             book.setDescription(updateBook.getDescription());
             book.setCoverImage(updateBook.getCoverImage());
             book.setPrice(updateBook.getPrice());

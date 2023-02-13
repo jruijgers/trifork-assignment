@@ -38,6 +38,9 @@ class BooksControllerTest {
 
     @Test
     void getBookByIdShouldCallGetBookByIdOnBooksService() {
+        Book book = new Book();
+        when(booksService.getBookById(1L)).thenReturn(Optional.of(book));
+
         subject.getBookById(1L);
 
         verify(booksService).getBookById(1L);
