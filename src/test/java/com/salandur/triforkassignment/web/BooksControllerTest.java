@@ -1,5 +1,6 @@
 package com.salandur.triforkassignment.web;
 
+import com.salandur.triforkassignment.domain.Book;
 import com.salandur.triforkassignment.service.BooksService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,5 +35,14 @@ class BooksControllerTest {
         subject.getBookById(1L);
 
         verify(booksService).getBookById(1L);
+    }
+
+    @Test
+    void createBookShouldCallCreateBookOnBooksService() {
+        Book newBook = new Book();
+
+        subject.createBook(newBook);
+
+        verify(booksService).createBook(newBook);
     }
 }

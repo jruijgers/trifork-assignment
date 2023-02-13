@@ -1,5 +1,6 @@
 package com.salandur.triforkassignment.service;
 
+import com.salandur.triforkassignment.domain.Book;
 import com.salandur.triforkassignment.repositories.BooksRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,7 @@ class BooksServiceTest {
 
     @BeforeEach
     void setUp() {
-        subject = new BooksService(booksRepository);
+        subject = new BooksServiceImpl(booksRepository);
     }
 
     @Test
@@ -33,5 +34,14 @@ class BooksServiceTest {
         subject.getBookById(1L);
 
         verify(booksRepository).findById(1L);
+    }
+
+    @Test
+    void createBookShouldCallSaveOnBooksRepository() {
+        Book newBook = new Book();
+
+        subject.createBook(newBook);
+
+        verify(booksRepository).save(newBook);
     }
 }
