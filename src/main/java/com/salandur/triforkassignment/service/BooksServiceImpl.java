@@ -34,4 +34,10 @@ public class BooksServiceImpl implements BooksService {
     public Book createBook(Book newBook) {
         return booksRepository.save(newBook);
     }
+
+    @Override
+    @Transactional
+    public Book saveBook(Book book) {
+        return booksRepository.save(book);
+    }
 }

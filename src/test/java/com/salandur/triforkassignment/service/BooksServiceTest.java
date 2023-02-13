@@ -44,4 +44,13 @@ class BooksServiceTest {
 
         verify(booksRepository).save(newBook);
     }
+
+    @Test
+    void saveBookShouldCallSaveOnBooksRepository() {
+        Book book = new Book();
+
+        subject.saveBook(book);
+
+        verify(booksRepository).save(book);
+    }
 }
