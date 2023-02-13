@@ -5,8 +5,11 @@ import lombok.*;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Entity
 public class Author {
     @Id
@@ -16,4 +19,17 @@ public class Author {
     private String name;
 
     private String pseudonym;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Author author = (Author) o;
+        return Objects.equals(id, author.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
