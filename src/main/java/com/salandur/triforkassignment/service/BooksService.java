@@ -10,8 +10,12 @@ import java.util.Optional;
 
 @Service
 public class BooksService {
+    private final BooksRepository booksRepository;
+
     @Autowired
-    private BooksRepository booksRepository;
+    public BooksService(BooksRepository booksRepository) {
+        this.booksRepository = booksRepository;
+    }
 
     @Transactional(readOnly = true)
     public Iterable<Book> getAllBooks() {
