@@ -11,9 +11,12 @@ import java.util.Optional;
 
 @RestController
 public class BooksController {
+    private final BooksService booksService;
 
     @Autowired
-    private BooksService booksService;
+    public BooksController(BooksService booksService) {
+        this.booksService = booksService;
+    }
 
     @GetMapping("/books")
     public Iterable<Book> getBooks() {
