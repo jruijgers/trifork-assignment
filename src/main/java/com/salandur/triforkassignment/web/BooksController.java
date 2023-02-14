@@ -1,6 +1,7 @@
 package com.salandur.triforkassignment.web;
 
 import com.salandur.triforkassignment.domain.Book;
+import com.salandur.triforkassignment.service.AuthorsService;
 import com.salandur.triforkassignment.service.BooksService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,10 +12,12 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 public class BooksController {
     private final BooksService booksService;
+    private final AuthorsService authorsService;
 
     @Autowired
-    public BooksController(BooksService booksService) {
+    public BooksController(BooksService booksService, AuthorsService authorsService) {
         this.booksService = booksService;
+        this.authorsService = authorsService;
     }
 
     @GetMapping("/books")
@@ -44,6 +47,11 @@ public class BooksController {
             book.setDescription(updateBook.getDescription());
             book.setCoverImage(updateBook.getCoverImage());
             book.setPrice(updateBook.getPrice());
+
+            if (!ObjectUtils.isEmpty(updateBook.getAuthor())) {
+                authorsService.getAuthorById(updateBook.getAuthor().getId()).
+                        ifPresent(author -> book.setAuthor(author));
+            }
 
             return booksService.saveBook(book);
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found"));
