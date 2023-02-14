@@ -22,7 +22,7 @@ public class BooksController {
     }
 
     @GetMapping("/books")
-    public Iterable<Book> getBooks(@RequestParam String title, @RequestParam Long authorId) {
+    public Iterable<Book> getBooks(@RequestParam(required = false) String title, @RequestParam(required = false) Long authorId) {
         if (!ObjectUtils.isEmpty(title)) {
             return booksService.getBooksByTitle(title);
         } else if (!ObjectUtils.isEmpty(authorId)) {
