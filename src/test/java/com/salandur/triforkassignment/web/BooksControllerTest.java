@@ -31,9 +31,16 @@ class BooksControllerTest {
 
     @Test
     void getBooksShouldCallGetAllBooksOnBooksService() {
-        subject.getBooks();
+        subject.getBooks(null);
 
         verify(booksService).getAllBooks();
+    }
+
+    @Test
+    void getBooksWithTitleShouldCallGetBooksByTitleOnBooksService() {
+        subject.getBooks("title");
+
+        verify(booksService).getBooksByTitle("title");
     }
 
     @Test
@@ -77,10 +84,10 @@ class BooksControllerTest {
         when(booksService.saveBook(any())).thenReturn(existingBook);
 
         Book updateBook = new Book();
-        updateBook.setName("new title");
+        updateBook.setTitle("new title");
 
         subject.updateBook(updateBook, 1L);
 
-        assertEquals("new title", existingBook.getName(), "title does not match");
+        assertEquals("new title", existingBook.getTitle(), "title does not match");
     }
 }

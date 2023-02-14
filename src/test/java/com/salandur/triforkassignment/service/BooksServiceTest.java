@@ -30,6 +30,13 @@ class BooksServiceTest {
     }
 
     @Test
+    void getBooksByTitleShouldCallFindAllByTitleOnBooksRepository() {
+        subject.getBooksByTitle("title");
+
+        verify(booksRepository).findAllByTitle("title");
+    }
+
+    @Test
     void getBookByIdShouldCallFindByIdOnBooksRepository() {
         subject.getBookById(1L);
 

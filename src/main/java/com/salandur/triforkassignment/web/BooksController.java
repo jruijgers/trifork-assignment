@@ -4,6 +4,7 @@ import com.salandur.triforkassignment.domain.Book;
 import com.salandur.triforkassignment.service.BooksService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -17,8 +18,12 @@ public class BooksController {
     }
 
     @GetMapping("/books")
-    public Iterable<Book> getBooks() {
-        return booksService.getAllBooks();
+    public Iterable<Book> getBooks(@RequestParam String title) {
+        if (!ObjectUtils.isEmpty(title)) {
+            return booksService.getBooksByTitle(title);
+        }else {
+            return booksService.getAllBooks();
+        }
     }
 
     @PostMapping("/books")

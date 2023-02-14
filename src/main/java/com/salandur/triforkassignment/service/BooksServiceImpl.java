@@ -25,6 +25,12 @@ public class BooksServiceImpl implements BooksService {
 
     @Override
     @Transactional(readOnly = true)
+    public Iterable<Book> getBooksByTitle(String title) {
+        return booksRepository.findAllByTitle(title);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Optional<Book> getBookById(Long id) {
         return booksRepository.findById(id);
     }
