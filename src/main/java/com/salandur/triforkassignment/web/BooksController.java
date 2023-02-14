@@ -1,5 +1,6 @@
 package com.salandur.triforkassignment.web;
 
+import com.salandur.triforkassignment.domain.Author;
 import com.salandur.triforkassignment.domain.Book;
 import com.salandur.triforkassignment.service.AuthorsService;
 import com.salandur.triforkassignment.service.BooksService;
@@ -21,12 +22,16 @@ public class BooksController {
     }
 
     @GetMapping("/books")
-    public Iterable<Book> getBooks(@RequestParam String title) {
+    public Iterable<Book> getBooks(@RequestParam String title, @RequestParam Long authorId) {
         if (!ObjectUtils.isEmpty(title)) {
             return booksService.getBooksByTitle(title);
-        }else {
+        } else if (!ObjectUtils.isEmpty(authorId)) {
+            Author author = authorsService.getAuthorById(authorId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Author not found"));
+            return booksService.getBooksByAuthor(author);
+        } else {
             return booksService.getAllBooks();
         }
+
     }
 
     @PostMapping("/books")

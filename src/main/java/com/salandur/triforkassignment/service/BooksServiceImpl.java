@@ -1,5 +1,6 @@
 package com.salandur.triforkassignment.service;
 
+import com.salandur.triforkassignment.domain.Author;
 import com.salandur.triforkassignment.domain.Book;
 import com.salandur.triforkassignment.repositories.BooksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,11 @@ public class BooksServiceImpl implements BooksService {
     @Transactional(readOnly = true)
     public Iterable<Book> getBooksByTitle(String title) {
         return booksRepository.findAllByTitle(title);
+    }
+
+    @Override
+    public Iterable<Book> getBooksByAuthor(Author author) {
+        return booksRepository.findAllByAuthor(author);
     }
 
     @Override

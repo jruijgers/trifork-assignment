@@ -9,10 +9,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
@@ -36,18 +38,36 @@ class BooksControllerTest {
 
     @Test
     void getBooksShouldCallGetAllBooksOnBooksService() {
-        subject.getBooks(null);
+        subject.getBooks(null, null);
 
         verify(booksService).getAllBooks();
     }
 
     @Test
     void getBooksWithTitleShouldCallGetBooksByTitleOnBooksService() {
-        subject.getBooks("title");
+        subject.getBooks("title", null);
 
         verify(booksService).getBooksByTitle("title");
     }
 
+    @Test
+    void getBooksWithAuthorShouldCallGetBooksByAuthorOnBooksService() {
+        Author author = new Author();
+        author.setId(1L);
+        when(authorsService.getAuthorById(1L)).thenReturn(Optional.of(author));
+
+        subject.getBooks(null, 1L);
+
+        verify(booksService).getBooksByAuthor(author);
+    }
+
+    @Test
+    void getBooksWithNotExistingAuthorShouldThrowException() {
+        when(authorsService.getAuthorById(2L)).thenReturn(Optional.empty());
+
+        assertThrows(ResponseStatusException.class,
+                () -> subject.getBooks(null, 2L));
+    }
     @Test
     void getBookByIdShouldCallGetBookByIdOnBooksService() {
         Book book = new Book();

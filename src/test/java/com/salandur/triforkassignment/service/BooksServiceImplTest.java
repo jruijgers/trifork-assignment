@@ -1,5 +1,6 @@
 package com.salandur.triforkassignment.service;
 
+import com.salandur.triforkassignment.domain.Author;
 import com.salandur.triforkassignment.domain.Book;
 import com.salandur.triforkassignment.repositories.BooksRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-class BooksServiceTest {
+class BooksServiceImplTest {
     @Mock
     private BooksRepository booksRepository;
 
@@ -41,6 +42,16 @@ class BooksServiceTest {
         subject.getBookById(1L);
 
         verify(booksRepository).findById(1L);
+    }
+
+    @Test
+    void getBooksByAuthorShouldCallFindAllByAuthorOnBooksRepository() {
+        Author author = new Author();
+        author.setId(1L);
+
+        subject.getBooksByAuthor(author);
+
+        verify(booksRepository).findAllByAuthor(author);
     }
 
     @Test
