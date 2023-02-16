@@ -3,6 +3,7 @@ package com.salandur.triforkassignment.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
 @Getter
@@ -14,15 +15,19 @@ public class Book {
     @GeneratedValue
     private Long id;
 
+    @NotBlank
     private String title;
 
     @ManyToOne
+    @NotBlank
     private Author author;
 
+    @NotBlank
     private String description;
 
     private String coverImage;
 
+    @NotBlank
     private Double price;
 
     @Override
