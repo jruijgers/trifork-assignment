@@ -10,6 +10,8 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
+
 @RestController
 public class BooksController {
     private final BooksService booksService;
@@ -35,7 +37,7 @@ public class BooksController {
     }
 
     @PostMapping("/books")
-    public Book createBook(@RequestBody Book newBook) {
+    public Book createBook(@Valid @RequestBody Book newBook) {
         return booksService.createBook(newBook);
     }
 
@@ -48,10 +50,18 @@ public class BooksController {
     @PutMapping("/books/{id}")
     public Book updateBook(@RequestBody Book updateBook, @PathVariable Long id) {
         return booksService.getBookById(id).map(book -> {
-            book.setTitle(updateBook.getTitle());
-            book.setDescription(updateBook.getDescription());
-            book.setCoverImage(updateBook.getCoverImage());
-            book.setPrice(updateBook.getPrice());
+            if (!ObjectUtils.isEmpty(updateBook.getTitle())) {
+                book.setTitle(updateBook.getTitle());
+            }
+            if (!ObjectUtils.isEmpty(updateBook.getDescription())) {
+                book.setDescription(updateBook.getDescription());
+            }
+            if (!ObjectUtils.isEmpty(updateBook.getCoverImage())) {
+                book.setCoverImage(updateBook.getCoverImage());
+            }
+            if (!ObjectUtils.isEmpty(updateBook.getPrice())) {
+                book.setPrice(updateBook.getPrice());
+            }
 
             if (!ObjectUtils.isEmpty(updateBook.getAuthor())) {
                 authorsService.getAuthorById(updateBook.getAuthor().getId()).
